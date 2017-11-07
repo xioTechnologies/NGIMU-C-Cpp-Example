@@ -8,10 +8,14 @@
  * Teensy 3.2
  *
  * IDE/compiler:
- * Arduino 1.6.12 and Teensy Loader 1.27
+ * Arduino 1.8.5 and Teensy Loader 1.4
  *
  * The OSC99 source files (i.e. the "Osc99" directory) must be added to the
  * Arduino libraries folder.  See: https://www.arduino.cc/en/guide/libraries
+ *
+ * Lower performance devices such as the Arduino MEGA do not have enough memory
+ * to use this example 'as is'.  The value of MAX_TRANSPORT_SIZE must be reduced
+ * to 150 in OscCommon.h if this example is used on such devices.
  */
 
 //------------------------------------------------------------------------------
@@ -51,41 +55,48 @@ void ngimuReceiveErrorCallback(const char* const errorMessage) {
 
 // This function is called each time a "/sensors" message is received
 void ngimuSensorsCallback(const NgimuSensors ngimuSensors) {
-    char string[256];
-    snprintf(string, sizeof (string),
-            "/sensors, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\r\n",
-            ngimuSensors.gyroscopeX,
-            ngimuSensors.gyroscopeY,
-            ngimuSensors.gyroscopeZ,
-            ngimuSensors.accelerometerX,
-            ngimuSensors.accelerometerY,
-            ngimuSensors.accelerometerZ,
-            ngimuSensors.magnetometerX,
-            ngimuSensors.magnetometerY,
-            ngimuSensors.magnetometerZ,
-            ngimuSensors.barometer);
-    Serial.print(string);
+    Serial.print("/sensors, ");
+    Serial.print(ngimuSensors.gyroscopeX);
+    Serial.print(", ");
+    Serial.print(ngimuSensors.gyroscopeY);
+    Serial.print(", ");
+    Serial.print(ngimuSensors.gyroscopeZ);
+    Serial.print(", ");
+    Serial.print(ngimuSensors.accelerometerX);
+    Serial.print(", ");
+    Serial.print(ngimuSensors.accelerometerY);
+    Serial.print(", ");
+    Serial.print(ngimuSensors.accelerometerZ);
+    Serial.print(", ");
+    Serial.print(ngimuSensors.magnetometerX);
+    Serial.print(", ");
+    Serial.print(ngimuSensors.magnetometerY);
+    Serial.print(", ");
+    Serial.print(ngimuSensors.magnetometerZ);
+    Serial.print(ngimuSensors.barometer);
+    Serial.print("\r\n");
 }
 
 // This function is called each time a "/quaternion" message is received
 void ngimuQuaternionCallback(const NgimuQuaternion ngimuQuaternion) {
-    char string[256];
-    snprintf(string, sizeof (string),
-            "/quaternion, %f, %f, %f, %f\r\n",
-            ngimuQuaternion.w,
-            ngimuQuaternion.x,
-            ngimuQuaternion.y,
-            ngimuQuaternion.z);
-    Serial.print(string);
+    Serial.print("/quaternion, ");
+    Serial.print(ngimuQuaternion.w);
+    Serial.print(", ");
+    Serial.print(ngimuQuaternion.x);
+    Serial.print(", ");
+    Serial.print(ngimuQuaternion.y);
+    Serial.print(", ");
+    Serial.print(ngimuQuaternion.z);
+    Serial.print("\r\n");
 }
 
 // This function is called each time a "/euler" message is received.
 void ngimuEulerCallback(const NgimuEuler ngimuEuler) {
-    char string[256];
-    snprintf(string, sizeof (string),
-            "/euler, %f, %f, %f\r\n",
-            ngimuEuler.roll,
-            ngimuEuler.pitch,
-            ngimuEuler.yaw);
-    Serial.print(string);
+    Serial.print("/euler, ");
+    Serial.print(ngimuEuler.roll);
+    Serial.print(", ");
+    Serial.print(ngimuEuler.pitch);
+    Serial.print(", ");
+    Serial.print(ngimuEuler.yaw);
+    Serial.print("\r\n");
 }
